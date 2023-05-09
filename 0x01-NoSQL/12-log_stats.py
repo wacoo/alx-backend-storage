@@ -27,9 +27,12 @@ collection = db1['nginx']
 print("{} logs".format(len(list(collection.find()))))
 print("Methods:")
 print("    method GET: {}".format(len(list(collection.find({method: "GET"})))))
-print("    method POST: {}".format(len(list(collection.find({method: "POST"})))))
+print("    method POST: {}".format(len(list(
+      collection.find({method: "POST"})))))
 print("    method PUT: {}".format(len(list(collection.find({method: "PUT"})))))
-print("    method PATCH: {}".format(len(list(collection.find({method: "PATCH"})))))
-print("    method DELETE: {}".format(len(list(collection.find({method: "DELETE"})))))
+print("    method PATCH: {}".format(len(list(
+      collection.find({method: "PATCH"})))))
+print("    method DELETE: {}".format(len(list(
+      collection.find({method: "DELETE"})))))
 status = mongo_collection.count_documents({"path": "/status"})
 print("{} status check".format(status))

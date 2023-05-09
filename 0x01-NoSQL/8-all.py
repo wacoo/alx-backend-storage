@@ -10,9 +10,8 @@ from pymongo.collection import Collection
 from typing import List
 
 
-def list_all(mongo_collection: Collection) -> List:
+def list_all(mongo_collection):
     ''' resturns a list of all documents in a collection '''
-    lst = mongo_collection.find()
-    if not lst:
+    if mongo_collection is None:
         return []
-    return lst
+    return list(mongo_collection.find())
