@@ -10,4 +10,5 @@ import pymongo
 
 
 def insert_school(mongo_collection, **kwargs):
+    ''' inserts a school to db and returns school id '''
     return mongo_collection.insert_one(kwargs).inserted_id

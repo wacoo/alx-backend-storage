@@ -10,4 +10,19 @@ import pymongo
 
 
 def top_students(mongo_collection):
-    return(list(mongo_collection.find().sort(score)))
+    ''' return all students sorted by average score '''
+    pipe = [
+        {
+            '$project': {
+                'name': '$name',
+                'averageScore': {'$avg': '$topics.score'}
+             }
+         },
+        {
+            '$sort':
+            {
+                'averageScore': -1
+            }
+        }
+    ]
+    return mongo_collection.aggregate(pipe)

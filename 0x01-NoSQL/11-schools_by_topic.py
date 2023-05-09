@@ -10,4 +10,5 @@ import pymongo
 
 
 def schools_by_topic(mongo_collection, topic):
+    ''' list all schools having given topics '''
     return mongo_collection.find({'topics': topic})

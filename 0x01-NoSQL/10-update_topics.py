@@ -12,6 +12,7 @@ import pymongo
 
 
 def update_topics(mongo_collection, name, topics):
+    ''' update and add topics based on given name '''
     query = {'name': name}
     new_val = {'$set': {'topics': topics}}
     mongo_collection.update_many(query, new_val)
