@@ -39,6 +39,19 @@ def call_history(method: Callable) -> Callable:
     return func2
 
 
+def replay(method: Callable) -> None:
+    ''' replays the history of a function '''
+    db = redis.Redis()
+    name = method.__qualname__
+    count = db.get(name).decode('utf-8')
+    print('{} was called {} times:'.format(name, count))
+    inputs = db.lrange(name + ':inputs', 0, -1)
+    outputs = db.lrange(name + ':outputs', 0, -1)
+    for i, o in zip(inputs, outputs):
+        print('{}(*{}) -> {}'.format(name, i.decode('utf-8'),
+              o.decode('utf-8')))
+
+
 class Cache:
     '''
     Cache class that handles caching operation
