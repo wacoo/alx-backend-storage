@@ -33,7 +33,7 @@ def count_call(method: Callable) -> Callable:
         key = 'count: ' + url
         db.incr(key)
         page = method(url)
-        db.set(key, page)
+        ''' db.set(key, page) '''
         db.expire(key, 10)
         return page
     return function
@@ -44,11 +44,3 @@ def get_page(url: str) -> str:
     ''' fetch content from url '''
     db = redis.Redis()
     return requests.get(url).text
-
-
-url = 'https://pythontic.com/database/redis/list'
-print(get_page(url))
-print(get_page(url))
-print(get_page(url))
-print(get_page(url))
-print(db.get('count: ' + url))
