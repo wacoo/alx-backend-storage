@@ -21,6 +21,7 @@ class Cache:
         self._redis.flushdb
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
+        ''' stores data to radis and returns id '''
         id1 = uuid.uuid4()
         self._redis.set(str(id1), data)
         return str(id1)
