@@ -12,11 +12,12 @@ int or float'''
 import redis
 import uuid
 from typing import Union, Callable, Optional
+from functools import wraps
 
 
-def count_calls(self, method: Callable) -> Callable:
+def count_calls(method: Callable) -> Callable:
     ''' count number of times this method is called '''
-    @wrapper(method)
+    @wraps(method)
     def func(self, *args, **kwargs):
         ''' rapper function '''
         self._redis.incr(method.__qualname__)
@@ -35,6 +36,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         '''
         stores data to radis and returns id
