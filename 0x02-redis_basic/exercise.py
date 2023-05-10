@@ -15,14 +15,20 @@ from typing import Union
 
 
 class Cache:
-    ''' Cache class that handles caching operation '''
+    '''
+    Cache class that handles caching operation
+    '''
     def __init__(self) -> None:
-        ''' init Chache during instantiation '''
+        '''
+        init Chache during instantiation
+        '''
         self._redis = redis.Redis()
-        self._redis.flushdb
+        self._redis.flushdb()
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        ''' stores data to radis and returns id '''
+        '''
+        stores data to radis and returns id
+        '''
         id1 = str(uuid.uuid4())
         self._redis.set(id1, data)
         return id1
