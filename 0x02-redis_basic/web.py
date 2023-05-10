@@ -33,7 +33,7 @@ def count_call(method: Callable) -> Callable:
         key = 'count: ' + url
         db.incr(key)
         page = method(url)
-        ''' db.set(key, page) '''
+        db.set(key, page)
         db.expire(key, 10)
         return page
     return function
