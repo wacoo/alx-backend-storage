@@ -1,0 +1,10 @@
+-- create stored procedure that computes and store avg score
+DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser;
+DELIMITER ||
+CREATE PROCEDURE ComputeAverageScoreForUser(IN id INT)
+	BEGIN
+		-- SET avg_s INT;
+		-- SELECT AVG(score) FROM corrections WHERE user_id = id INTO avg_s;
+		SELECT user_id, name, avg_s AS score FROM corrections WHERE user_id = id;
+	END; ||
+DELIMITER ;

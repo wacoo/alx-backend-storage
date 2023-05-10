@@ -1,0 +1,8 @@
+-- create stored procedure that computes and store avg score
+DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser;
+-- DELIMITER ||
+CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
+	-- BEGIN
+	SELECT score FROM connections WHERE connections.user_id = user_id;
+	-- END; ||
+-- DELIMITER ;
