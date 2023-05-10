@@ -15,9 +15,9 @@ from typing import Union
 
 
 class Cache:
-    ''' Cache class '''
-    def __init__(self):
-        ''' init Chache '''
+    ''' Cache class that handles caching operation '''
+    def __init__(self) -> None:
+        ''' init Chache during instantiation '''
         self._redis = redis.Redis()
         self._redis.flushdb
 
