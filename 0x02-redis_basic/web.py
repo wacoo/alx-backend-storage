@@ -30,9 +30,12 @@ def count_call(method: Callable) -> Callable:
     @wraps(method)
     def function(url):
         ''' wrap function '''
-        db.incr('count: {}'.format(url))
-        db.expire('count: ' + url, 10)
-        return method(url)
+        key = 'count: ' + url
+        db.incr(key)
+        page = method(url)
+        db.set(key, page)
+        db.expire(key, 10)
+        return page
     return function
 
 
