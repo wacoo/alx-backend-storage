@@ -30,11 +30,16 @@ def count_call(method: Callable) -> Callable:
     @wraps(method)
     def function(url):
         ''' wrap function '''
-        key = 'count: ' + url
+        ckey = 'cached:' + url
+        cdata = db.get(ckey)
+        if cdata:
+            return cdata.decode('utf-8')
+
+        key = 'count:' + url
         db.incr(key)
         page = method(url)
-        db.set(key, page)
-        db.expire(key, 10)
+        db.set(ckey, page)
+        db.expire(ckey, 10)
         return page
     return function
 
