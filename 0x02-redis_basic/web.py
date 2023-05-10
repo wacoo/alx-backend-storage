@@ -31,7 +31,3 @@ def get_page(url: str) -> str:
     db.incr('count:{}'.format(url))
     db.setex('cached:{}'.format(url), 10, db.get('cached:{}'.format(url)))
     return result.text
-
-
-if __name__ == '__main__':
-    get_page('http://slowwly.robertomurray.co.uk')
