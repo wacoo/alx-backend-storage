@@ -15,6 +15,7 @@ from typing import Union
 
 
 class Cache:
+    ''' Cache class '''
     def __init__(self):
         ''' init Chache '''
         self._redis = redis.Redis()
