@@ -19,10 +19,24 @@ def count_calls(method: Callable) -> Callable:
     ''' count number of times this method is called '''
     @wraps(method)
     def func(self, *args, **kwargs):
-        ''' rapper function '''
+        ''' wrapper function '''
         self._redis.incr(method.__qualname__)
         return method(self, *args, **kwargs)
     return func
+
+
+def call_history(method: Callable) -> Callable:
+    ''' store inputs and outputs of store to radis '''
+    @wraps(method)
+    def func2(self, *args, **kwargs):
+        ''' wrapper function '''
+        ikey = method.__qualname__ + ':inputs'
+        okey = method.__qualname__ + ':outputs'
+        result = str(method(self, *args, **kwargs))
+        self._redis.rpush(ikey, str(args))
+        self._redis.rpush(okey, result)
+        return result
+    return func2
 
 
 class Cache:
@@ -37,6 +51,7 @@ class Cache:
         self._redis.flushdb()
 
     @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         '''
         stores data to radis and returns id
