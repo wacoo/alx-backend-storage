@@ -16,18 +16,34 @@ and test your caching.
 
 Bonus: implement this use case with decorators.
 '''
-
-import redis
 import requests
+import redis
+from functools import wraps
+
 
 db = redis.Redis()
 
-count = 0
+
+def count_page_access(method):
+    ''' count number of time a website is accessed '''
+    @wraps(method)
+    def func(url):
+        ''' wrap function '''
+        ckey = 'cached:' + url
+        cdata = db.get(ckey)
+        if cdata:
+            return cdata.decode('utf-8')
+
+        key = 'count:' + url
+        db.incr(key)
+        page = method(url)
+        db.set(ckey, page)
+        db.expire(ckey, 10)
+        return page
+    return func
 
 
+@count_page_access
 def get_page(url: str) -> str:
-    db.set('cached:{}'.format(url), count)
-    result = requests.get(url)
-    db.incr('count:{}'.format(url))
-    db.setex('cached:{}'.format(url), 10, db.get('cached:{}'.format(url)))
-    return result.text
+    ''' fetch content from url '''
+    return requests.get(url).text
