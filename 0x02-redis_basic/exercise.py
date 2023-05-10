@@ -22,7 +22,8 @@ def count_calls(self, method: Callable) -> Callable:
         self._redis.incr(method.__qualname__)
         return method(self, *args, **kwargs)
     return func
-    
+
+
 class Cache:
     '''
     Cache class that handles caching operation
@@ -54,6 +55,7 @@ class Cache:
         ''' returns str version of key value '''
         val = self._redis.get(key)
         return val.decode('utf_8')
+
     def get_int(self, data: str) -> int:
         ''' returns int version of key value '''
         val = self._redis.get(key)
